@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <title>Dokumentation</title>
+    </head>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #ol {
+            counter-reset: item;
+            list-style-position: outside;
+        }
+        #ol li {
+            display: block;
+        }
+        #ol li::before {
+            position: relative;
+            counter-increment: item;
+            content: counters(item, ".") " ";
+        }
+        #table {
+            margin-left: 50px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+    <body>  
+        <ol id="ol">
+            <li><b>Beschreibung des Anwendungsszenarios</b><br>
+                	Der Nutzer kann Kurse verwalten, indem Kurse angelegt oder gelöscht werden können.
+                    Mit der Anwendung kann man also für Schüler oder Studenten mögliche Kurse erstellen.
+                    Falls man die Anwendung erweitern möchte können diese sich für den Kurs anmelden.
+                    Wenn ein Kurs nicht mehr gebraucht wird, kann dieser gelöscht werden.
+            </li>
+            <li><b>Fachobjekte der Anwendung</b><br>
+                    In der Anwendung sind zwei Fachobjekte vorhanden welche Kurs und Zeit sind.
+                    Kurs hat die Attribute: name, professor, raum. Zeit hat die Attribute:
+                    tag und zeitraum. Falls sich der Nutzer für einen neuen Kurs anmelden will
+                    muss er neben dem Kurs die jeweilige Zeit auswählen. Diese werden dann mit
+                    ihrer eindeutigen ID abgespeichert. Um eine Verbindung zwischen den beiden
+                    Fachobjekten zu erstellen werden die IDs der Kurse beim Fachobjekt Zeit
+                    abgespeichert. In der HTML-Seite Kursinformationen werden dann die Attribute der zusammengehörenden 
+                    Fachobjekte Kurs und Zeit angezeigt.
+            </li>
+            <li><b>Beschreibung und Begründung der Implementierungsentscheidungen</b>
+                <ol id="ol">
+                    <li><b>Client</b>
+                        <ol id="ol">
+                            <li><b>Strukturierung der HTML-Seiten</b><br>
+                                    In dieser Anwendung sind drei HTML-Seiten vorhanden. Diese
+                                    bestehen aus der Auflistung der Kurse, der Anzeige der 
+                                    Kursinformationen und zu guter Letzt das Formular zur 
+                                    Erstellung eines neuen Kurses. Es wurde aber für den header, nav und footer 
+                                    eine extra HTML-Seite erstellt damit nicht auf jeder Seite alles einzeln geändert 
+                                    werden muss. Zudem entsteht weniger HTML-Code auf den Hauptseiten.<br>
+                                    Die Navigation, positioniert unter der Überschrift, besteht aus drei Links zur jeweilig oben genannten HTML-Seite. 
+                                    Es wurde nur zwei mal ein div-Container benutzt und zwar bei der Auflistung der
+                                    Kurse und bei der Anzeige der Kursinformationen. Der Grund dafür war, dass ich eine
+                                    Warnbox brauchte und das mit span nicht möglich gewesen wäre. Wenn keine Informationen verfügbar sind,
+                                    die angezeigt werden können, erscheinen diese Warnboxen.
+                            </li>
+                            <li><b>Layout</b><br>
+                                    Für das Layout wurde flex-box benutzt. Die Hauptelemente header, nav, main und footer wurden
+                                    mit column angereiht. Das bedeutet das zuerst der header mit dem nav drunter kommt und danach
+                                    für die Hauptinformationen main. Zum Schluss ist der Footer ganz am Ende. Das Layout bleibt 
+                                    für alle Geräte gleich erhalten unabhängig der Displaygröße. Die Hauptelemente erstrecken sich über den
+                                    ganzen Bildschirm mit einer maximalen Breite.
+                            </li>
+                            <li><b>Responsivität</b><br>
+                                    Es wurden zwei Breakpoints erstellt. Der erste Breakpoint wurde bei max-width=600px gesetzt und ist für
+                                    die Navigation, weil der Name der Links umbrechen wenn das Fenster verkleinert wird. Nachdem der Breakpoint erreicht
+                                    wird werden die padding-left und padding-right auf 0px gesetzt. Somit bleiben die Namen wie sie sind und es wird kein 
+                                    automatischer Zeilenumbruch vorgenommen. <br>
+                                    Der zweite Breakpoint hingegen wurde auf der Seite kurse.ejs definiert. Dieser wird bei kleinen Bildschirmen aktiviert 
+                                    wie zum Beispiel Smartphones. Beim Triggern des Breakpoints werden die einzelnen li-Elemente vergrößert, um die 
+                                    Sichtbarkeit für mobile Nutzer zu verbessern.
+                            </li>
+                        </ol>
+                    </li>
+                    <li><b>Server</b>
+                        <ol id="ol">
+                            <li><b>Modulstruktur</b><br>
+                                    Die Module der Server wurden nach der Drei-Schichten-Architektur strukturiert.
+                                    Das heißt es gibt einmal die Datenhaltung, die Routes und zu guter Letzt den Server
+                                    an sich. In data.js findet die Datenhaltung statt, in index.js sind die ganzen Routes
+                                    definiert und im app.js wird der Server gestartet wo die Routes eingebunden sind.
+                                    Der Server bzw app.js hat nur Zugriff auf die Routes bzw den Router, somit ist die Datenhaltung
+                                    vom Server klar getrennt. Der Router also index.js hat nur Zugriff auf die Datenhaltung und
+                                    dient somit quasi als Brücke zwischen dem Server und den Daten. Der Router nimmt die Daten, 
+                                    verarbeitet diese und sagt dem Server was er machen soll. Das wiederholt sich solange der Server
+                                    am Laufen ist.
+                            </li>
+                            <li><b>Unterstützte URLs/Endpunkte</b>
+                            <table>
+                                <tr>
+                                    <th>URL</th>
+                                    <th>HTTP-Methode</th>
+                                    <th>Aktion</th>
+                                </tr>
+                                <tr>
+                                    <td>/</td>
+                                    <td>GET</td>
+                                    <td>Anzeige der Kursliste</td>
+                                </tr> 
+                                <tr>
+                                    <td>/kursinfo/:id</td>
+                                    <td>GET</td>
+                                    <td>Anzeige der Kursinformationen zu einem Kurs</td>
+                                </tr> 
+                                <tr>
+                                    <td>/delete</td>
+                                    <td>POST</td>
+                                    <td>Löschen eines Kurses</td>
+                                </tr> 
+                                <tr>
+                                    <td>/neuanlage</td>
+                                    <td>GET</td>
+                                    <td>Anzeige des Formulars um neue Kurse anzulegen</td>
+                                </tr> 
+                                <tr>
+                                    <td>/neuanlage</td>
+                                    <td>POST</td>
+                                    <td>Neuanlage eines Kurses</td>
+                                </tr> 
+                                <tr>
+                                    <td>*</td>
+                                    <td>GET</td>
+                                    <td>Leitet alle nicht deklarierten URLs zu "/"</td>
+                                </tr> 
+                            </table>
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+            </li>
+            <li><b>Start der Anwendung</b><br>
+                    Um die Anwendung zu starten müssen zuerst die benötigten Bibliotheken installiert 
+                    werden. Dies kann mit npm durchgeführt werden. Im Ordner "appKursverwaltung" muss
+                    das Terminal geöffnet werden. Dann wird der Befehl npm install ausgeführt. 
+                    Nachdem alles installiert ist, muss ihm terminal "node app.js" oder "nodemon app.js"
+                    ausgeführt werden um die Anwendung zu starten. Die Anwendung ist unter der URL "http://localhost:8023/" erreichbar.
+            </li>
+            <li><b>Autorenschaft der Quellcode-Dateien</b></li>
+        </ol>
+            <table id="table">
+                <tr>
+                    <th>Autorin(Name, Matrikelnr.)</th>
+                    <th>Dateien</th>
+                </tr>
+                <tr>
+                    <td>Cokic, Sedad(7205622)</td>
+                    <td>
+                        <ul>
+                            <li>models/data.js</li>
+                            <li>public/css/allgemein.css</li>
+                            <li>public/css/kurse.css</li>
+                            <li>public/css/kursinfo.css</li>
+                            <li>public/css/neuanlage.css</li>
+                            <li>public/js/neuanlage.js</li>
+                            <li>routes/index.js</li>
+                            <li>views/header_nav.ejs</li>
+                            <li>views/kurse.ejs</li>
+                            <li>views/kursinfo.ejs</li>
+                            <li>views/neuanlage.ejs</li>
+                            <li>views/footer.ejs</li>
+                            <li>app.js</li>
+                        </ul>
+                    </td>
+                </tr> 
+            </table>
+    </body>
+</html>

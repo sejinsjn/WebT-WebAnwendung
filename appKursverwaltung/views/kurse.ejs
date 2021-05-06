@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <link href="/css/allgemein.css" rel="stylesheet" type="text/css">
+        <link href="/css/kurse.css" rel="stylesheet" type="text/css">
+        <title>Ihre Kurse</title>
+    </head>
+    <body>  
+        <%- include("header_nav.ejs") %>
+        <main>
+            <% if(anzahl > 0) { %>
+                <ul id="flex-container">
+                    <% for (let kurs of kurse) { %>
+                            <a href="kursinfo/:id=<%= kurs.id %>">
+                                <li id="flex-items">
+                                    <%= kurs.name%>
+                                </li>
+                            </a>
+                    <% }%>
+                </ul>
+            <% }else{ %>
+                <div id="alert">Bitte melden Sie sich für einen einen Kurs an.</div>
+            <% } %>
+        </main>
+        <%- include("footer.ejs") %>
+    </body>
+</html>

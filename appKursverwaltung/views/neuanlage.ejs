@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <link href="/css/allgemein.css" rel="stylesheet" type="text/css">
+        <link href="/css/neuanlage.css" rel="stylesheet" type="text/css"> 
+        <script src="quadrat.js"></script>
+        <title>Anmeldung für einen Kurs</title>
+    </head>
+    <body>  
+        <%- include("header_nav.ejs") %>
+        <main>
+            <form action="/neuanlage" method="POST">
+                <table>
+                    <tr>
+                        <th>Kursname</th>
+                        <td>
+                            <input type="text" name="name" id="input" placeholder="Bitte Kursnamen eingeben." pattern="^\S*$" title="Bitte geben Sie etwas ein." required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Professor</th>
+                        <td>
+                            <input type="text" name="prof" id="input" placeholder="Bitte Professor angeben." pattern="^\S*$" title="Bitte geben Sie etwas ein." required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Raum</th>
+                        <td>
+                            <input type="text" name="raum" id="input" placeholder="Bitte Raum angeben." pattern="[A-Z]{1}.[1-5]{1}.[0-9]{2}" title="Bitte halten Sie sich an das Format Letter.Number.NumberNumber" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Wochentag</th>
+                        <td>
+                            <select name="tag" id="daySelection">
+                                <option selected value="">Bitte wählen Sie aus</option>
+                                <option value="Montag">Montag</option>
+                                <option value="Dienstag">Dienstag</option>
+                                <option value="Mittwoch">Mittwoch</option>
+                                <option value="Donnerstag">Donnerstag</option>
+                                <option value="Freitag">Freitag</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Uhrzeit</th>
+                        <td>
+                            <p>von <input type="time" name="von" id="inputTime"></p> 
+                            <p>bis <input type="time" name="bis" id="inputTime" required></p>     
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" name="anlegen" id="pushButton" value="Anlegen">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </main>
+        <%- include("footer.ejs") %>
+    </body>
+</html> 

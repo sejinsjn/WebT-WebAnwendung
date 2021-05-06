@@ -1,0 +1,41 @@
+/* kurse.ejs */
+main {
+    height: 100%;
+}
+
+#flex-container { 
+    max-width: 1000px;
+    display: flex;
+    flex-flow: row wrap; 
+    justify-content: space-evenly;
+    margin: 0 auto;
+}
+
+#flex-items {
+    height: 100px;
+    width: 300px;
+    margin-top: 25px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 15px 60px;
+    background-color: #5048b7;
+}
+
+#flex-items:hover{
+    filter: brightness(0.7);
+}
+
+ul{
+    padding-inline-start: 0;
+    list-style: none;
+}
+
+/* Anpassungen für Handy und Tablets*/
+@media screen and (max-device-width: 480px) {
+    #flex-items {
+        height: 120px;
+        width: 400px;
+        line-height: 120px;
+    }
+}
+

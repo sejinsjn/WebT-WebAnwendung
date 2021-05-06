@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <link href="/css/allgemein.css" rel="stylesheet" type="text/css">
+        <link href="/css/kursinfo.css" rel="stylesheet" type="text/css"> 
+        <title>Kursinformationen</title>
+    </head>
+    <body>
+        <%- include("header_nav.ejs") %>
+        <main>
+            <% if(kursid >= 0) { %>
+                <table>
+                    <tr>
+                        <th>Kursname</th>
+                        <td><%= kurs.name %></td>
+                    </tr>
+                    <tr>
+                        <th>Professor</th>
+                        <td><%= kurs.prof %></td>
+                    </tr>
+                    <tr>
+                        <th>Raum</th>
+                        <td><%= kurs.raum %></td>
+                    </tr>
+                    <% for(let zeit of zeiten){ %>
+                        <% if(zeit.status == kurs.id){ %>
+                            <tr>
+                                <th>Wochentag</th>
+                                <td><%= zeit.tag %></td>
+                            </tr>
+                            <tr>
+                                <th>Uhrzeit</th>
+                                <td><%= zeit.uhrzeit %></td>
+                            </tr>
+                    <% } } %>
+                    <tr>
+                        <form action="/delete" method="POST">
+                            <td colspan="2">
+                                <input type="hidden" value="<%= kurs.id %>" name="entfernen">
+                                <input type="submit" id="delete" value="Entfernen">
+                            </td>
+                        </form>
+                    </tr>
+                </table>
+            <% }else{ %>
+                <div id="alert">Bitte wählen Sie einen Kurs aus.</div>
+            <% } %>
+        </main>
+        <%- include("footer.ejs") %>
+    </body>
+</html>
